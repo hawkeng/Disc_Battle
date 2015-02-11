@@ -1,0 +1,135 @@
+fileFormatVersion: 2
+guid: 44b7b775a3e43eb44a78db4854335416
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: blue_disc_0
+    21300002: blue_disc_1
+    21300004: blue_disc_2
+    21300006: blue_disc_3
+    21300008: blue_disc_4
+    21300010: blue_disc_5
+    21300012: blue_disc_6
+    21300014: blue_disc_7
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: blue_disc_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 2297
+        width: 324
+        height: 313
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blue_disc_1
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 1968
+        width: 324
+        height: 313
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blue_disc_2
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1642
+        width: 323
+        height: 313
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blue_disc_3
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 1312
+        width: 323
+        height: 313
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blue_disc_4
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 988
+        width: 323
+        height: 313
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blue_disc_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 657
+        width: 339
+        height: 321
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blue_disc_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 331
+        width: 337
+        height: 313
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blue_disc_7
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 0
+        width: 337
+        height: 313
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
