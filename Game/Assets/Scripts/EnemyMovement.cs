@@ -4,12 +4,13 @@ using System.Collections;
 public class EnemyMovement : PlayerMovement {
 
 	public Transform goalZone;
+	public float minDistance = 0.85f;
 
 	private Transform target;
 	private Transform myTransform;
-	private float minDistance;
 	private Vector3 prevPos;
 	private Vector3 posDifference;
+	private bool targetIsPlayer = false;
 
 	void Awake ()
 	{
@@ -20,7 +21,6 @@ public class EnemyMovement : PlayerMovement {
 	{
 		base.Start();
 		target = GameObject.FindGameObjectWithTag ("Scorable").transform;
-		//target = GameObject.Find ("Player").transform;
 		prevPos = myTransform.position;
 	}
 
@@ -38,23 +38,24 @@ public class EnemyMovement : PlayerMovement {
 		// Keep track of target location
 		myTransform.LookAt (target);
 
-		// Move the current position to the target position
-		// Also restrict z axis movement
-		myTransform.position = myTransform.position + myTransform.forward * maxSpeed * Time.deltaTime;
+		float distanceToPlayer = (target.position - myTransform.position).magnitude;		
+		if (!targetIsPlayer || distanceToPlayer >= minDistance)
+		{
+			// Move the current position to the target position
+			myTransform.position += myTransform.forward * maxSpeed * Time.deltaTime;
+		}
 
-		// If the enemy starts to disappear comment the code above and uncomment this:
+		// If the enemy starts to disappear when moving comment the line above and uncomment this:
 		/*Vector3 tmpPos = myTransform.position + myTransform.forward * maxSpeed * Time.deltaTime;
 		tmpPos.z = 0;
 		myTransform.position = tmpPos;*/
 
-		// Set rotation to 0,0,0
+		// Set rotation to 0,0,0,0
 		myTransform.rotation = Quaternion.identity;
 	}
 
 	protected override void FixedUpdate ()
 	{	
-		//Debug.Log ("H: " + moveH + " --- V: " + moveV);
-
 		facingDirection = "";
 		if (moveV == 1) 
 		{
@@ -78,6 +79,12 @@ public class EnemyMovement : PlayerMovement {
 		{
 			spriteRend.sprite = movementDict[facingDirection];
 		}
+	}
+
+	public void PlayerGotGem () 
+	{
+		targetIsPlayer = true;
+		target = GameObject.Find ("Player").transform;
 	}
 
 	public override void NotifGemCollect ()

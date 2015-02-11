@@ -5,8 +5,14 @@ public class GemCollect : MonoBehaviour {
 
 	public float offset = 10f;
 
+	private EnemyMovement enemyMov;
 	private Transform carry;
 	private bool collected = false;
+
+	void Start ()
+	{
+		enemyMov = GameObject.Find ("Enemy").GetComponent<EnemyMovement> ();
+	}
 
 	void LateUpdate ()
 	{
@@ -22,10 +28,15 @@ public class GemCollect : MonoBehaviour {
 		{
 			GameObject player =	coll.gameObject;
 
-			PlayerMovement pm = player.GetComponent<PlayerMovement>();
+			PlayerMovement pm = player.GetComponent<PlayerMovement> ();
 			pm.hasGem = true;
 			pm.collectedGem = this.gameObject;
-			pm.NotifGemCollect();
+			pm.NotifGemCollect ();
+
+			if (player.name == "Player")
+			{
+				enemyMov.PlayerGotGem ();
+			}
 
 			carry = player.transform;
 			collected = true;
