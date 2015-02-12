@@ -62,6 +62,15 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 
+	/*void OnCollisionEnter2D (Collision2D coll)
+	{
+		if (coll.gameObject.name == "Enemy")
+		{
+			Debug.Log ("Collision");
+			coll.rigidbody.AddForce (Vector2.right * 100);
+		}
+	}*/
+
 	public virtual void NotifGemCollect () {}
 
 	public virtual void HandleGoal () {}
