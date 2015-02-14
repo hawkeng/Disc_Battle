@@ -8,7 +8,6 @@ public class EnemyMovement : PlayerMovement {
 
 	private Transform target;
 	private Transform myTransform;
-	//private Vector3 prevPos;
 	private Vector2 nextPos;
 	private bool targetIsPlayer = false;
 
@@ -22,32 +21,10 @@ public class EnemyMovement : PlayerMovement {
 
 	void Update () 
 	{
-		// We need to emulate the Input.GetAxis behaviour in our enemy
-		// So we catch the difference between the current position and
-		// the last position we were. We take the x and y difference
-		// and normalize it to be -1, 0 or 1 with Clamp
-		/*Vector2 posDifference = (myTransform.position - prevPos) / Time.deltaTime;
-		moveH = Mathf.Clamp (posDifference.x, -1, 1);
-		moveV = Mathf.Clamp (posDifference.y, -1, 1);
-		prevPos = myTransform.position;*/
+		timer += Time.deltaTime;
 
 		// Keep track of target location
 		myTransform.LookAt (target);
-
-		// NOTE: Uncomment this block if the enemy movement fails
-		//       and comment the 'nextPos' line
-		/*float distanceToPlayer = (target.position - myTransform.position).magnitude;
-		if (!targetIsPlayer || distanceToPlayer >= minDistance)
-		{
-			// Move the current position to the target position
-			myTransform.position += myTransform.forward * maxSpeed * Time.deltaTime;
-
-		}*/
-
-		// If the enemy starts to disappear when moving comment the block above and uncomment this:
-		/*Vector3 tmpPos = myTransform.position + myTransform.forward * maxSpeed * Time.deltaTime;
-		tmpPos.z = 0;
-		myTransform.position = tmpPos;*/
 
 		nextPos = myTransform.forward * maxSpeed;
 
@@ -86,6 +63,24 @@ public class EnemyMovement : PlayerMovement {
 		{
 			spriteRend.sprite = movementDict[facingDirection];
 		}
+
+		if (isHitting)
+		{
+			if (timer >= timeBetweenHits)
+			{
+				RaycastHit2D[] beenHit = Physics2D.CircleCastAll (transform.position, hitRadius, Vector2.zero, Mathf.Infinity, hitLayer);
+				for (int i = 0, len = beenHit.Length; i < len; i++)
+				{
+					GameObject hitObj = beenHit[i].transform.gameObject;
+					if (hitObj.name == "Player")
+					{
+						hitObj.rigidbody2D.AddForce ((hitObj.transform.position - transform.position) * hitForce);
+					}
+				}
+				timer = 0f;
+			}
+			isHitting = false;
+		}
 	}
 
 	public void PlayerGotGem () 
@@ -102,5 +97,11 @@ public class EnemyMovement : PlayerMovement {
 	public override void HandleGoal ()
 	{
 		target = GameObject.FindGameObjectWithTag ("Scorable").transform;
+	}
+
+	
+	public bool playerIsTarget 
+	{
+		get {return targetIsPlayer;}
 	}
 }

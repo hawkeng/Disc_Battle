@@ -6,17 +6,25 @@ public class PlayerMovement : MonoBehaviour {
 
 	public MovementFace[] movementFaces;
 	public float maxSpeed = 10f;
-	public bool hasGem = false;
-	public GameObject collectedGem;
+	public float hitRadius = 2.19f;
+	public float hitForce = 5000f;
+	public float timeBetweenHits = 1f;
 
 	protected SpriteRenderer spriteRend;
 	protected string facingDirection;
 	protected Dictionary<string, Sprite> movementDict;
 	protected float moveH, moveV;
+	protected LayerMask hitLayer;
+	protected bool isHitting = false;
+	protected GameObject gemObject;
+	protected bool carryingGem = false;
+	protected float timer;
 
 	// Is virtual in order to be overriden for children classes
 	protected virtual void Start () 
 	{
+		// Get the player layer so we only care about hit the enemy
+		hitLayer = 1 << LayerMask.NameToLayer ("Player");
 		spriteRend = GetComponent<SpriteRenderer> ();
 
 		MovementFace[] mf = movementFaces;
@@ -29,8 +37,14 @@ public class PlayerMovement : MonoBehaviour {
 	
 	void Update () 
 	{
+		timer += Time.deltaTime;
 		moveH = Input.GetAxis ("Horizontal");
 		moveV = Input.GetAxis ("Vertical");
+
+		if (Input.GetButton("Fire1"))
+		{
+			isHitting = true;
+		}
 	}
 
 	protected virtual void FixedUpdate ()
@@ -60,16 +74,37 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			spriteRend.sprite = movementDict[facingDirection];
 		}
+
+		if (isHitting)
+		{
+			if (timer >= timeBetweenHits)
+			{
+				RaycastHit2D[] beenHit = Physics2D.CircleCastAll (transform.position, hitRadius, Vector2.zero, Mathf.Infinity, hitLayer);
+				for (int i = 0, len = beenHit.Length; i < len; i++)
+				{
+					GameObject hitObj = beenHit[i].transform.gameObject;
+					if (hitObj.name == "Enemy")
+					{
+						hitObj.rigidbody2D.AddForce ((hitObj.transform.position - transform.position) * hitForce);
+					}
+				}
+				timer = 0f;
+			}
+			isHitting = false;
+		}
 	}
 
-	/*void OnCollisionEnter2D (Collision2D coll)
+	public GameObject collectedGem 
 	{
-		if (coll.gameObject.name == "Enemy")
-		{
-			Debug.Log ("Collision");
-			coll.rigidbody.AddForce (Vector2.right * 100);
-		}
-	}*/
+		get {return gemObject;}
+		set {gemObject = value;}
+	}
+
+	public bool hasGem
+	{
+		get {return carryingGem;}
+		set {carryingGem = value;}
+	}
 
 	public virtual void NotifGemCollect () {}
 
