@@ -34,7 +34,7 @@ public class ScoreManager : MonoBehaviour {
 		{
 			pm = goalZones[i].homePlayer.GetComponent<PlayerMovement> ();
 			pm.enabled = true;
-			pm.HandleGoal();
+			pm.LookForGem();
 		}
 	}
 }

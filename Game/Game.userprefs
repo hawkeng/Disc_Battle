@@ -1,18 +1,15 @@
 ﻿<Properties GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GemCollect.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerMovement.cs">
     <Files>
-      <File FileName="Assets\Scripts\PlayerMovement.cs" Line="89" Column="7" />
-      <File FileName="Assets\Scripts\EnemyMovement.cs" Line="95" Column="3" />
-      <File FileName="Assets\Scripts\EnemyHit.cs" Line="31" Column="57" />
-      <File FileName="Assets\Scripts\GemCollect.cs" Line="13" Column="3" />
+      <File FileName="Assets\Scripts\PlayerMovement.cs" Line="77" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
-              <Node name="GemCollect.cs" selected="True" />
+              <Node name="PlayerMovement.cs" selected="True" />
             </Node>
           </Node>
         </State>

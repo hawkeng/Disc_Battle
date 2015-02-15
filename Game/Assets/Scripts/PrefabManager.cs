@@ -4,6 +4,7 @@ using System.Collections;
 public class PrefabManager : MonoBehaviour {
 
 	public GameObject GemPrefab;
+	public GameObject ProjectilePrefab;
 
 	private static PrefabManager instance;
 

@@ -51,11 +51,11 @@
      <Compile Include="Assets\Scripts\EnemyMovement.cs" />
      <Compile Include="Assets\Scripts\GemCollect.cs" />
      <Compile Include="Assets\Scripts\GoalManager.cs" />
+     <Compile Include="Assets\Scripts\HitMechanics.cs" />
      <Compile Include="Assets\Scripts\InfiniteBackground.cs" />
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\PrefabManager.cs" />
      <Compile Include="Assets\Scripts\ScoreManager.cs" />
-     <Compile Include="Assets\Scripts\SpawnManager.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Instalados/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>

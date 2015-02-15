@@ -16,13 +16,10 @@ public class EnemyMovement : PlayerMovement {
 		base.Start();
 		myTransform = transform;
 		target = GameObject.FindGameObjectWithTag ("Scorable").transform;
-		//prevPos = myTransform.position;
 	}
 
 	void Update () 
 	{
-		timer += Time.deltaTime;
-
 		// Keep track of target location
 		myTransform.LookAt (target);
 
@@ -63,24 +60,6 @@ public class EnemyMovement : PlayerMovement {
 		{
 			spriteRend.sprite = movementDict[facingDirection];
 		}
-
-		if (isHitting)
-		{
-			if (timer >= timeBetweenHits)
-			{
-				RaycastHit2D[] beenHit = Physics2D.CircleCastAll (transform.position, hitRadius, Vector2.zero, Mathf.Infinity, hitLayer);
-				for (int i = 0, len = beenHit.Length; i < len; i++)
-				{
-					GameObject hitObj = beenHit[i].transform.gameObject;
-					if (hitObj.name == "Player")
-					{
-						hitObj.rigidbody2D.AddForce ((hitObj.transform.position - transform.position) * hitForce);
-					}
-				}
-				timer = 0f;
-			}
-			isHitting = false;
-		}
 	}
 
 	public void PlayerGotGem () 
@@ -94,7 +73,7 @@ public class EnemyMovement : PlayerMovement {
 		target = goalZone;
 	}
 
-	public override void HandleGoal ()
+	public override void LookForGem ()
 	{
 		target = GameObject.FindGameObjectWithTag ("Scorable").transform;
 	}
