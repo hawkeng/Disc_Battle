@@ -28,11 +28,11 @@ public class EnemyHit : MonoBehaviour {
 					GameObject gem = pm.collectedGem;
 					pm.hasGem = false;
 					gem.GetComponentInChildren<GemCollect> ().isCollected = false;
-					//gem.transform.localPosition = hitObj.transform.position;
+					gem.GetComponentInChildren<CircleCollider2D> ().enabled = true;
 					pm.collectedGem = null;
 
 					Vector3 applyForce = (hitObj.transform.position - transform.position) * hitForce;
-					//hitObj.rigidbody2D.velocity = Vector2.zero;
+					hitObj.rigidbody2D.velocity = Vector2.zero;
 					hitObj.rigidbody2D.AddForce (applyForce);
 
 					transform.parent.GetComponent<EnemyMovement> ().LookForGem();

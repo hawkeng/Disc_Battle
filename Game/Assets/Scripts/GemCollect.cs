@@ -43,15 +43,13 @@ public class GemCollect : MonoBehaviour {
 
 			carry = player.transform;
 			isCollected = true;
+			collider2D.enabled = false;
 		}
 	}
 
 	public bool isCollected
 	{
 		get {return collected;}
-		set 
-		{
-			collected = value;
-		}
+		set {collected = value;}
 	}
 }

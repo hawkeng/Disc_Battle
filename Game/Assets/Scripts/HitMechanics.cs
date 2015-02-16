@@ -35,7 +35,6 @@ public class HitMechanics : MonoBehaviour {
 	{
 		if (isHitting)
 		{
-			Debug.Log ("isHitting");
 			if (timer >= timeBetweenHits)
 			{
 				RaycastHit2D[] beenHit = Physics2D.CircleCastAll (transform.position, hitRadius, Vector2.zero, Mathf.Infinity, hitLayer);
@@ -50,19 +49,15 @@ public class HitMechanics : MonoBehaviour {
 							GameObject gem = pm.collectedGem;
 							pm.hasGem = false;
 							gem.GetComponentInChildren<GemCollect> ().isCollected = false;
+							gem.GetComponentInChildren<CircleCollider2D> ().enabled = true;
 							pm.collectedGem = null;
 							
 							hitObj.GetComponent<EnemyMovement> ().LookForGem();
 						}
 
 						// Melee atack
-						//hitObj.rigidbody2D.velocity = Vector2.zero;
-						Debug.Log ("Adding Force");
+						hitObj.rigidbody2D.velocity = Vector2.zero;
 						hitObj.rigidbody2D.AddForce ((hitObj.transform.position - transform.position) * hitForce);
-					}
-					else
-					{
-						Shoot ();
 					}
 				}
 				timer = 0f;
