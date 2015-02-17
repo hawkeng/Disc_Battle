@@ -9,11 +9,17 @@ public class EnemyMovement : PlayerMovement {
 	private Transform target;
 	private Transform myTransform;
 	private Vector2 nextPos;
-	private bool targetIsPlayer = false;
+
+	public bool targetIsPlayer {get; private set;}
 
 	protected override void Start ()
 	{
 		base.Start();
+
+		targetIsPlayer = false;
+
+		// Enemy starts facing LEFT
+		facingCoordinates = new Vector2 (-1, 0);
 		myTransform = transform;
 		target = GameObject.FindGameObjectWithTag ("Scorable").transform;
 	}
@@ -76,11 +82,5 @@ public class EnemyMovement : PlayerMovement {
 	public override void LookForGem ()
 	{
 		target = GameObject.FindGameObjectWithTag ("Scorable").transform;
-	}
-
-	
-	public bool playerIsTarget 
-	{
-		get {return targetIsPlayer;}
 	}
 }

@@ -14,12 +14,13 @@ public class ScoreManager : MonoBehaviour {
 	{
 		GameObject player;
 		// Reset players' position to their respective goal zones
-		// and temporary disable their movement
+		// and temporary disable their movement and shoot ability
 		for (int i = 0, len = goalZones.Length; i < len; i++)
 		{
 			player = goalZones[i].homePlayer;
 
 			player.GetComponent<PlayerMovement> ().enabled = false;
+			//player.GetCom
 
 			player.rigidbody2D.velocity = Vector2.zero;
 			player.transform.position = goalZones[i].transform.position;

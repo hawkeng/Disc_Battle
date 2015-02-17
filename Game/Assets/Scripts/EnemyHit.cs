@@ -31,12 +31,11 @@ public class EnemyHit : MonoBehaviour {
 					gem.GetComponentInChildren<CircleCollider2D> ().enabled = true;
 					pm.collectedGem = null;
 
-					Vector3 applyForce = (hitObj.transform.position - transform.position) * hitForce;
-					hitObj.rigidbody2D.velocity = Vector2.zero;
-					hitObj.rigidbody2D.AddForce (applyForce);
-
 					transform.parent.GetComponent<EnemyMovement> ().LookForGem();
 				}
+
+				hitObj.rigidbody2D.velocity = Vector2.zero;
+				hitObj.rigidbody2D.AddForce ((hitObj.transform.position - transform.position) * hitForce);
 			}
 			timer = 0f;
 		}

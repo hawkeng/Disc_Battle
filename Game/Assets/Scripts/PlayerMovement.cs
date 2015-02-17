@@ -11,12 +11,24 @@ public class PlayerMovement : MonoBehaviour {
 	protected string facingDirection;
 	protected Dictionary<string, Sprite> movementDict;
 	protected float moveH, moveV;
-	protected GameObject gemObject;
-	protected bool carryingGem = false;
+	protected Vector3 _facingCoordinates;
+
+	public GameObject collectedGem {get; set;}
+	public bool hasGem {get; set;}
+
+	public Vector3 facingCoordinates 
+	{
+		get {return _facingCoordinates;}
+		protected set {_facingCoordinates = value;}
+	}
 
 	// Is virtual in order to be overriden for children classes
 	protected virtual void Start () 
 	{
+		hasGem = false;
+
+		// Player always starts facing RIGHT
+		facingCoordinates = new Vector2 (1, 0);
 		spriteRend = GetComponent<SpriteRenderer> ();
 
 		MovementFace[] mf = movementFaces;
@@ -31,6 +43,16 @@ public class PlayerMovement : MonoBehaviour {
 	{
 		moveH = Input.GetAxis ("Horizontal");
 		moveV = Input.GetAxis ("Vertical");
+
+		// Keep track of the last facing coordinates that are 
+		// different from 0
+		if (moveH != 0 || moveV != 0)
+		{
+			_facingCoordinates.x = Mathf.Clamp (moveH, -1, 1);
+			_facingCoordinates.y = Mathf.Clamp (moveV, -1, 1);
+		}
+		//if (moveH != 0) {lastFacing.x = Mathf.Clamp (moveH, -1, 1);}
+		//if (moveV != 0) {lastFacing.y = Mathf.Clamp (moveV, -1, 1);}
 	}
 
 	protected virtual void FixedUpdate ()
@@ -65,18 +87,6 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			spriteRend.sprite = movementDict[facingDirection];
 		}
-	}
-
-	public GameObject collectedGem 
-	{
-		get {return gemObject;}
-		set {gemObject = value;}
-	}
-
-	public bool hasGem
-	{
-		get {return carryingGem;}
-		set {carryingGem = value;}
 	}
 
 	public virtual void NotifGemCollect () {}
