@@ -20,7 +20,15 @@ public class ScoreManager : MonoBehaviour {
 			player = goalZones[i].homePlayer;
 
 			player.GetComponent<PlayerMovement> ().enabled = false;
-			//player.GetCom
+
+			if (player.name == "Player")
+			{
+				player.GetComponent<HitMechanics> ().canShoot = false;
+			}
+			else
+			{
+				player.GetComponentInChildren<HitMechanics> ().canShoot = false;
+			}
 
 			player.rigidbody2D.velocity = Vector2.zero;
 			player.transform.position = goalZones[i].transform.position;
@@ -33,8 +41,19 @@ public class ScoreManager : MonoBehaviour {
 		PlayerMovement pm;
 		for (int i = 0, len = goalZones.Length; i < len; i++)
 		{
-			pm = goalZones[i].homePlayer.GetComponent<PlayerMovement> ();
+			player = goalZones[i].homePlayer;
+			pm = player.GetComponent<PlayerMovement> ();
 			pm.enabled = true;
+
+			if (player.name == "Player")
+			{
+				player.GetComponent<HitMechanics> ().canShoot = true;
+			}
+			else
+			{
+				player.GetComponentInChildren<HitMechanics> ().canShoot = true;
+			}
+
 			pm.LookForGem();
 		}
 	}
