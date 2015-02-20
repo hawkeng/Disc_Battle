@@ -13,6 +13,8 @@ public class EnemyHit : HitMechanics {
 		timer += Time.deltaTime;
 	}
 
+	void FixedUpdate () {}
+
 	void OnTriggerStay2D (Collider2D coll)
 	{
 		if (timer >= timeBetweenHits)

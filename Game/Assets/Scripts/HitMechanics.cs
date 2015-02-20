@@ -9,6 +9,7 @@ public class HitMechanics : MonoBehaviour {
 	public string enemyName = "Enemy";
 
 	protected float timer;
+	protected bool isHitting = false;
 
 	private LayerMask hitLayer;
 	private PlayerMovement playerMov;
@@ -31,6 +32,14 @@ public class HitMechanics : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown(0))
 		{
+			isHitting = true;
+		}
+	}
+
+	void FixedUpdate ()
+	{
+		if (isHitting)
+		{
 			Hit ();
 		}
 	}
@@ -42,14 +51,10 @@ public class HitMechanics : MonoBehaviour {
 			bool hitEnemy = false;
 			Collider2D[] beenHit = Physics2D.OverlapCircleAll (transform.position, hitRadius, hitLayer);
 			GameObject hitObj;
-			for (int i = 0, len = beenHit.Length; i < len; i++)
+			for (int i = 0, len = beenHit.Length; i < len && !hitEnemy; i++)
 			{
 				hitObj = beenHit[i].gameObject;
 				hitEnemy = HandleHitEnemy (enemyName, hitObj);
-				if (hitEnemy)
-				{
-					break;
-				}
 			}
 			// The player shoots when doesn't melee atacks the enemy
 			if (!hitEnemy && canShoot)
@@ -57,6 +62,7 @@ public class HitMechanics : MonoBehaviour {
 				Shoot ();
 			}
 
+			isHitting = false;
 			timer = 0f;
 		}
 	}
@@ -98,29 +104,35 @@ public class HitMechanics : MonoBehaviour {
 	
 	void Shoot ()
 	{
-		//Debug.Log ("Shoot");
 		GameObject projectile = Instantiate (PrefabManager.Instance.ProjectilePrefab, 
 		                                     transform.position, 
 		                                     transform.rotation) 
 											 as GameObject;
 
-		projectile.GetComponentInChildren<Shot> ().mechanics = this;
-
-		/*Vector2 projectVel = playerMov.facingCoordinates;
-		projectile.GetComponent<Rigidbody2D> ().velocity = projectVel;
-		Vector2 shootForce = Vector2.zero;
-		shootForce.x = Mathf.Clamp (projectVel.x * 10, -1, 1);
-		shootForce.y = Mathf.Clamp (projectVel.y * 10, -1, 1);
-		projectile.GetComponent<Rigidbody2D> ().AddForce (shootForce * 2500f);*/
+		Shot shotMan = projectile.GetComponentInChildren<Shot> ();
+		shotMan.mechanics = this;
 
 		Vector2 shotTarget = transform.position + playerMov.facingCoordinates * 1000000f;
-		//Vector2 shootTarget = (transform.position + playerMov.facingCoordinates) * 100f;
-
-		//Debug.Log (shotTarget);
 
 		projectile.transform.LookAt (shotTarget);
-		projectile.rigidbody2D.velocity = projectile.transform.forward * 25f;
-		//projectile.transform.rotation = Quaternion.identity;
-		//projectile.rigidbody2D.AddForce (shootTarget * 500f);
+		projectile.rigidbody2D.velocity = projectile.transform.forward * shotMan.speed;
+
+		//RaycastHit2D[] objectsOnShotPath = Physics2D.LinecastAll (transform.position, shotTarget, hitLayer);
+		// usar circlecast con grosor considerable para detectar colisiones futuras y no sólo inmediatas
+		RaycastHit2D[] objectsOnShotPath = Physics2D.CircleCastAll (transform.position, 1.5f, shotTarget, 100f, hitLayer);
+		for (int i = 0, len = objectsOnShotPath.Length; i < len; i++)
+		{
+			GameObject hitObj = objectsOnShotPath[i].transform.gameObject;
+
+			if (hitObj.name == "Enemy")
+			{
+				NotifyShooting(transform.position);
+			}
+		}
+	}
+
+	private void NotifyShooting (Vector2 hitOrigin)
+	{
+		GameObject.Find ("Enemy").GetComponent<EnemyMovement> ().DodgeShot(hitOrigin);
 	}
 }

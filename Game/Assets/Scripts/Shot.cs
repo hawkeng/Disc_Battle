@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Shot : MonoBehaviour {
 
+	public float speed = 25f;
 	public HitMechanics mechanics {get; set;}
 
 	void OnTriggerEnter2D (Collider2D coll)
