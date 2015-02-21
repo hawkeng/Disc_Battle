@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour {
 	protected Dictionary<string, Sprite> movementDict;
 	protected float moveH, moveV;
 	protected Vector3 _facingCoordinates;
+	protected Vector3 move;
 
 	public GameObject collectedGem {get; set;}
 	public bool hasGem {get; set;}
@@ -57,7 +58,13 @@ public class PlayerMovement : MonoBehaviour {
 
 	protected virtual void FixedUpdate ()
 	{
-		rigidbody2D.velocity = new Vector3 (moveH * maxSpeed, moveV * maxSpeed, 0);
+		//rigidbody2D.velocity = new Vector3 (moveH * maxSpeed, moveV * maxSpeed, 0);
+
+		move.Set (moveH, moveV, 0);
+		// ClampMagnitude is for preventing the player to move faster in diagonal
+		// The second parameter is the max Length of the vector line
+		move = Vector3.ClampMagnitude (move, 1.0f);
+		rigidbody2D.velocity = move * maxSpeed;
 
 		HandleFacingDirection();
 	}

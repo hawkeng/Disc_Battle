@@ -133,6 +133,6 @@ public class HitMechanics : MonoBehaviour {
 
 	private void NotifyShooting (Vector2 hitOrigin)
 	{
-		GameObject.Find ("Enemy").GetComponent<EnemyMovement> ().DodgeShot(hitOrigin);
+		GameObject.Find ("Enemy").GetComponent<EnemyMovement> ().TryDodge(hitOrigin);
 	}
 }

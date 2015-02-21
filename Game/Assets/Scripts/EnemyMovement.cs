@@ -11,8 +11,10 @@ public class EnemyMovement : PlayerMovement {
 	private Vector2 nextPos;
 	private Vector2 dodgePos;
 	private Vector2[] dodgePositions;
-	private Vector3 spriteSize;
+	//private Vector3 spriteSize;
 	private bool dodging = false;
+	private float dodgeTimer;
+	private float maxTimeDodging = 1.5f;
 
 	public bool targetIsPlayer {get; private set;}
 
@@ -20,7 +22,7 @@ public class EnemyMovement : PlayerMovement {
 	{
 		base.Start();
 
-		spriteSize = spriteRend.bounds.size;
+		//spriteSize = spriteRend.bounds.size;
 
 		targetIsPlayer = false;
 
@@ -70,7 +72,7 @@ public class EnemyMovement : PlayerMovement {
 		myTransform.rotation = Quaternion.identity;
 	}
 
-	public void DodgeShot (Vector2 hitOrigin)
+	public void TryDodge (Vector2 hitOrigin)
 	{
 		Vector2 curPos = myTransform.position;
 		Vector2 hitDistance = hitOrigin - curPos;
@@ -84,14 +86,14 @@ public class EnemyMovement : PlayerMovement {
 
 		// The dodge position is choosen by a random because we don't want
 		// the enemy trying to dodge always in the same direction
-		float rayLength = spriteSize.x;
+		//float rayLength = spriteSize.x;
 		int random;
 		Vector2 dodgeDir;
 		for (int i = 1, tries = 8; i < tries && !dodging; i++)
 		{
 			random = Random.Range (0, 8);
 			dodgeDir = dodgePositions[random];
-			if (dodgeDir != hitDir)
+			if (hitDir != dodgeDir && hitDir != (dodgeDir * -1))
 			{
 				//dodgePos = curPos + (dodgeDir * rayLength);
 				dodgePos = curPos + dodgeDir;
@@ -111,11 +113,14 @@ public class EnemyMovement : PlayerMovement {
 
 	void Dodge ()
 	{
-		Debug.Log ("Dodging");
+		// We keep track of the time since the enemy started to dodge
+		// to prevent the enemy dodging last forever
+		dodgeTimer += Time.deltaTime;
 		Vector2 curPos = myTransform.position;
-		if (AlmostInPlace (curPos, dodgePos, 0.15f))
+		if (AlmostInPlace (curPos, dodgePos, 0.1f) || dodgeTimer >= maxTimeDodging)
 		{
 			dodging = false;
+			dodgeTimer = 0;
 		}
 		else
 		{
