@@ -3,9 +3,20 @@ using System.Collections;
 
 public class EnemyHit : HitMechanics {
 
-	void Start () 
+	public float distanceToShoot = 5f;
+
+	private Transform player;
+	private Transform myTransform;
+	private float distanceToPlayer;
+
+	protected override void Start () 
 	{
-		canShoot = true;
+		base.Start();
+
+		playerMov = GetComponentInParent<PlayerMovement> ();
+
+		myTransform = transform;
+		player = GameObject.Find ("Player").transform;
 	}
 
 	void Update ()
@@ -13,7 +24,15 @@ public class EnemyHit : HitMechanics {
 		timer += Time.deltaTime;
 	}
 
-	void FixedUpdate () {}
+	void FixedUpdate () 
+	{
+		distanceToPlayer = Vector3.Distance (myTransform.position, player.position);
+		if (distanceToPlayer <= distanceToShoot && timer >= timeBetweenHits)
+		{
+			Shoot ();
+			timer = 0f;
+		}
+	}
 
 	void OnTriggerStay2D (Collider2D coll)
 	{

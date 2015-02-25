@@ -10,13 +10,13 @@ public class HitMechanics : MonoBehaviour {
 
 	protected float timer;
 	protected bool isHitting = false;
+	protected PlayerMovement playerMov;
 
 	private LayerMask hitLayer;
-	private PlayerMovement playerMov;
 
 	public bool canShoot {get; set;}
 
-	void Start ()
+	protected virtual void Start ()
 	{
 		canShoot = true;
 
@@ -59,7 +59,7 @@ public class HitMechanics : MonoBehaviour {
 			// The player shoots when doesn't melee atacks the enemy
 			if (!hitEnemy && canShoot)
 			{
-				Shoot ();
+				ShootAndNotify ();
 			}
 
 			isHitting = false;
@@ -101,8 +101,43 @@ public class HitMechanics : MonoBehaviour {
 
 		return hitEnemy;
 	}
+
+	private void ShootAndNotify ()
+	{
+		Vector2 shotTarget;
+		Shoot (out shotTarget);
+
+		//RaycastHit2D[] objectsOnShotPath = Physics2D.LinecastAll (transform.position, shotTarget, hitLayer);
+		// usar circlecast con radio considerable para detectar colisiones futuras y no sólo inmediatas
+		RaycastHit2D[] objectsOnShotPath = Physics2D.CircleCastAll (transform.position, 1f, shotTarget, 100f, hitLayer);
+		for (int i = 0, len = objectsOnShotPath.Length; i < len; i++)
+		{
+			GameObject hitObj = objectsOnShotPath[i].transform.gameObject;
+
+			if (hitObj.name == "Enemy")
+			{
+				NotifyShooting(transform.position);
+			}
+		}
+	}
+
+	protected virtual void Shoot (out Vector2 shotTarget)
+	{
+		GameObject projectile = Instantiate (PrefabManager.Instance.ProjectilePrefab, 
+		                                     transform.position, 
+		                                     transform.rotation) 
+											 as GameObject;
+
+		Shot shotMan = projectile.GetComponentInChildren<Shot> ();
+		shotMan.mechanics = this;
+
+		shotTarget = transform.position + playerMov.facingCoordinates * 1000000f;
+
+		projectile.transform.LookAt (shotTarget);
+		projectile.rigidbody2D.velocity = projectile.transform.forward * shotMan.speed;
+	}
 	
-	void Shoot ()
+	protected virtual void Shoot ()
 	{
 		GameObject projectile = Instantiate (PrefabManager.Instance.ProjectilePrefab, 
 		                                     transform.position, 
@@ -116,19 +151,6 @@ public class HitMechanics : MonoBehaviour {
 
 		projectile.transform.LookAt (shotTarget);
 		projectile.rigidbody2D.velocity = projectile.transform.forward * shotMan.speed;
-
-		//RaycastHit2D[] objectsOnShotPath = Physics2D.LinecastAll (transform.position, shotTarget, hitLayer);
-		// usar circlecast con grosor considerable para detectar colisiones futuras y no sólo inmediatas
-		RaycastHit2D[] objectsOnShotPath = Physics2D.CircleCastAll (transform.position, 1.5f, shotTarget, 100f, hitLayer);
-		for (int i = 0, len = objectsOnShotPath.Length; i < len; i++)
-		{
-			GameObject hitObj = objectsOnShotPath[i].transform.gameObject;
-
-			if (hitObj.name == "Enemy")
-			{
-				NotifyShooting(transform.position);
-			}
-		}
 	}
 
 	private void NotifyShooting (Vector2 hitOrigin)

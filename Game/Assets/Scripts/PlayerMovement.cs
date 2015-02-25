@@ -45,6 +45,11 @@ public class PlayerMovement : MonoBehaviour {
 		moveH = Input.GetAxis ("Horizontal");
 		moveV = Input.GetAxis ("Vertical");
 
+		UpdateFacingCoords ();
+	}
+
+	protected void UpdateFacingCoords ()
+	{
 		// Keep track of the last facing coordinates that are 
 		// different from 0
 		if (moveH != 0 || moveV != 0)
@@ -52,11 +57,9 @@ public class PlayerMovement : MonoBehaviour {
 			_facingCoordinates.x = Mathf.Clamp (moveH, -1, 1);
 			_facingCoordinates.y = Mathf.Clamp (moveV, -1, 1);
 		}
-		//if (moveH != 0) {lastFacing.x = Mathf.Clamp (moveH, -1, 1);}
-		//if (moveV != 0) {lastFacing.y = Mathf.Clamp (moveV, -1, 1);}
 	}
 
-	protected virtual void FixedUpdate ()
+	void FixedUpdate ()
 	{
 		//rigidbody2D.velocity = new Vector3 (moveH * maxSpeed, moveV * maxSpeed, 0);
 
@@ -66,10 +69,10 @@ public class PlayerMovement : MonoBehaviour {
 		move = Vector3.ClampMagnitude (move, 1.0f);
 		rigidbody2D.velocity = move * maxSpeed;
 
-		HandleFacingDirection();
+		HandleFacing ();
 	}
 
-	void HandleFacingDirection ()
+	protected virtual void HandleFacing ()
 	{
 		facingDirection = "";
 		if (moveV > 0) 

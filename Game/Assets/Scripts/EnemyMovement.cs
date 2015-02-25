@@ -14,7 +14,7 @@ public class EnemyMovement : PlayerMovement {
 	//private Vector3 spriteSize;
 	private bool dodging = false;
 	private float dodgeTimer;
-	private float maxTimeDodging = 1.5f;
+	private float maxTimeDodging = 1f;
 
 	public bool targetIsPlayer {get; private set;}
 
@@ -55,13 +55,13 @@ public class EnemyMovement : PlayerMovement {
 
 	void Update () 
 	{
-		// Keep track of target location
 		if (dodging)
 		{
 			Dodge();
 		}
 		else
 		{
+			// Keep track of target location
 			myTransform.LookAt (target);
 		}
 
@@ -70,45 +70,6 @@ public class EnemyMovement : PlayerMovement {
 		// Set rotation to 0,0,0,0
 		// So the enemy's shape doesn't distort on moving
 		myTransform.rotation = Quaternion.identity;
-	}
-
-	public void TryDodge (Vector2 hitOrigin)
-	{
-		Vector2 curPos = myTransform.position;
-		Vector2 hitDistance = hitOrigin - curPos;
-		// The direction from where the shot is coming
-		Vector2 hitDir = Vector2.zero;
-		// Convert any number in 1 if greater than 0, -1 if lower than 0, otherwise 0
-		hitDir.x = hitDistance.x < -0.3 ? -1: hitDistance.x > 0.3 ? 1:0;
-		hitDir.y = hitDistance.y < -0.3 ? -1: hitDistance.y > 0.3 ? 1:0;
-
-		//Debug.Log (hitDir);
-
-		// The dodge position is choosen by a random because we don't want
-		// the enemy trying to dodge always in the same direction
-		//float rayLength = spriteSize.x;
-		int random;
-		Vector2 dodgeDir;
-		for (int i = 1, tries = 8; i < tries && !dodging; i++)
-		{
-			random = Random.Range (0, 8);
-			dodgeDir = dodgePositions[random];
-			if (hitDir != dodgeDir && hitDir != (dodgeDir * -1))
-			{
-				//dodgePos = curPos + (dodgeDir * rayLength);
-				dodgePos = curPos + dodgeDir;
-				RaycastHit2D[] blockingObjs = Physics2D.LinecastAll(curPos, dodgePos);
-				dodging = blockingObjs.Length == 0;
-				for (int j = 0, len = blockingObjs.Length; j < len && !dodging; j++)
-				{
-					dodging = true;
-					if (blockingObjs[j].transform.name != "Enemy")
-					{
-						dodging = blockingObjs[j].transform.tag == "Scorable";
-					}
-				}
-			}
-		}
 	}
 
 	void Dodge ()
@@ -136,28 +97,35 @@ public class EnemyMovement : PlayerMovement {
 		return almostInX && almostInY;
 	}
 
-	protected override void FixedUpdate ()
+	void FixedUpdate ()
 	{	
 		rigidbody2D.velocity = nextPos;
 
-		moveH = Mathf.Clamp (rigidbody2D.velocity.x, -1, 1);
-		moveV = Mathf.Clamp (rigidbody2D.velocity.y, -1, 1);
+		moveH = rigidbody2D.velocity.x;
+		moveV = rigidbody2D.velocity.y;
 
+		UpdateFacingCoords ();
+
+		HandleFacing ();
+	}
+
+	protected override void HandleFacing ()
+	{
 		facingDirection = "";
-		if (moveV == 1) 
+		if (_facingCoordinates.y == 1) 
 		{
 			facingDirection = "Up";
 		}
-		else if (moveV == -1)
+		else if (_facingCoordinates.y == -1)
 		{
 			facingDirection = "Down";
 		}
 		
-		if (moveH == 1)
+		if (_facingCoordinates.x == 1)
 		{
 			facingDirection += "Right";
 		}
-		else if (moveH == -1)
+		else if (_facingCoordinates.x == -1)
 		{
 			facingDirection += "Left";
 		}
@@ -165,6 +133,43 @@ public class EnemyMovement : PlayerMovement {
 		if (facingDirection != "")
 		{
 			spriteRend.sprite = movementDict[facingDirection];
+		}
+	}
+
+	public void TryDodge (Vector2 hitOrigin)
+	{
+		Vector2 curPos = myTransform.position;
+		Vector2 hitDistance = hitOrigin - curPos;
+		// The direction from where the shot is coming
+		Vector2 hitDir = Vector2.zero;
+		// Convert any number in 1 if greater than 0, -1 if lower than 0, otherwise 0
+		hitDir.x = hitDistance.x < -0.3 ? -1: hitDistance.x > 0.3 ? 1:0;
+		hitDir.y = hitDistance.y < -0.3 ? -1: hitDistance.y > 0.3 ? 1:0;
+
+		//float rayLength = spriteSize.x;
+		// The dodge position is choosen by a random because we don't want
+		// the enemy trying to dodge always in the same direction
+		int random;
+		Vector2 dodgeDir;
+		for (int i = 1, tries = 8; i < tries && !dodging; i++)
+		{
+			random = Random.Range (0, 8);
+			dodgeDir = dodgePositions[random];
+			if (hitDir != dodgeDir && hitDir != (dodgeDir * -1))
+			{
+				//dodgePos = curPos + (dodgeDir * rayLength);
+				dodgePos = curPos + dodgeDir;
+				RaycastHit2D[] blockingObjs = Physics2D.LinecastAll(curPos, dodgePos);
+				dodging = blockingObjs.Length == 0;
+				for (int j = 0, len = blockingObjs.Length; j < len && !dodging; j++)
+				{
+					dodging = true;
+					if (blockingObjs[j].transform.name != "Enemy")
+					{
+						dodging = blockingObjs[j].transform.tag == "Scorable";
+					}
+				}
+			}
 		}
 	}
 
