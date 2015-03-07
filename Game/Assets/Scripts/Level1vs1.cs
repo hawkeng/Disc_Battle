@@ -15,6 +15,6 @@ public class Level1vs1 : MonoBehaviour {
 	}
 
 	void LoadLevel(){
-		Application.LoadLevel ("Stage01");
+		Application.LoadLevel ("Stage01_dev");
 	}
 }

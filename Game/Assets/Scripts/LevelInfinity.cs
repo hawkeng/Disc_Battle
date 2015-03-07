@@ -11,6 +11,6 @@ public class LevelInfinity : MonoBehaviour {
 	}
 
 	void LoadLevelInfinity(){
-		Application.LoadLevel ("InifiniteStage01");
+		Application.LoadLevel ("StageInfinity");
 	}
 }

@@ -1,0 +1,234 @@
+fileFormatVersion: 2
+guid: d858248c36682fd4ba3b90f4b74f0988
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Posts_0
+    21300002: Posts_1
+    21300004: Posts_2
+    21300006: Posts_3
+    21300008: Posts_4
+    21300010: Posts_5
+    21300012: Posts_6
+    21300014: Posts_7
+    21300016: Posts_8
+    21300018: Posts_9
+    21300020: Posts_10
+    21300022: Posts_11
+    21300024: Posts_12
+    21300026: Posts_13
+    21300028: Posts_14
+    21300030: Posts_15
+    21300032: Posts_16
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Posts_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 993
+        width: 190
+        height: 470
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_1
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 998
+        width: 190
+        height: 469
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_2
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 991
+        width: 189
+        height: 470
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_3
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 995
+        width: 190
+        height: 469
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_4
+      rect:
+        serializedVersion: 2
+        x: 895
+        y: 998
+        width: 190
+        height: 469
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_5
+      rect:
+        serializedVersion: 2
+        x: 1116
+        y: 993
+        width: 189
+        height: 470
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_6
+      rect:
+        serializedVersion: 2
+        x: 1343
+        y: 997
+        width: 190
+        height: 469
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_7
+      rect:
+        serializedVersion: 2
+        x: 1578
+        y: 1130
+        width: 189
+        height: 324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 498
+        width: 189
+        height: 471
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_9
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 505
+        width: 190
+        height: 469
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_10
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 496
+        width: 189
+        height: 470
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_11
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 501
+        width: 190
+        height: 470
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_12
+      rect:
+        serializedVersion: 2
+        x: 895
+        y: 505
+        width: 190
+        height: 469
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_13
+      rect:
+        serializedVersion: 2
+        x: 1116
+        y: 498
+        width: 189
+        height: 471
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_14
+      rect:
+        serializedVersion: 2
+        x: 1343
+        y: 503
+        width: 190
+        height: 470
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_15
+      rect:
+        serializedVersion: 2
+        x: 1578
+        y: 629
+        width: 189
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Posts_16
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 0
+        width: 190
+        height: 469
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

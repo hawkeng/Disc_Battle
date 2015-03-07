@@ -1,43 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyHit : MonoBehaviour {
+public class EnemyHit : HitMechanics {
 
-	public float hitForce = 5000f;
-	public float timeBetweenHits = 1f;
-	
-	private float moveH, moveV;
-	private float timer;
+	public float distanceToShoot = 5f;
+
+	private Transform player;
+	private Transform myTransform;
+	private float distanceToPlayer;
+
+	protected override void Start () 
+	{
+		base.Start();
+
+		playerMov = GetComponentInParent<PlayerMovement> ();
+
+		myTransform = transform;
+		player = GameObject.Find ("Player").transform;
+	}
 
 	void Update ()
 	{
 		timer += Time.deltaTime;
 	}
 
+	void FixedUpdate () 
+	{
+		distanceToPlayer = Vector3.Distance (myTransform.position, player.position);
+		if (distanceToPlayer <= distanceToShoot && timer >= timeBetweenHits)
+		{
+			Shoot ();
+			timer = 0f;
+		}
+	}
+
 	void OnTriggerStay2D (Collider2D coll)
 	{
 		if (timer >= timeBetweenHits)
 		{
-			GameObject hitObj = coll.gameObject;
-			//bool playerIsTarget = GetComponentInParent<EnemyMovement> ().playerIsTarget;
-			if (hitObj.name == "Player")
-			{
-				PlayerMovement pm = hitObj.GetComponent<PlayerMovement> ();
-				if (pm.hasGem)
-				{
-					GameObject gem = pm.collectedGem;
-					pm.hasGem = false;
-					gem.GetComponentInChildren<GemCollect> ().isCollected = false;
-					gem.GetComponentInChildren<CircleCollider2D> ().enabled = true;
-					pm.collectedGem = null;
+			HandleHitEnemy (enemyName, coll.gameObject);
 
-					Vector3 applyForce = (hitObj.transform.position - transform.position) * hitForce;
-					hitObj.rigidbody2D.velocity = Vector2.zero;
-					hitObj.rigidbody2D.AddForce (applyForce);
-
-					transform.parent.GetComponent<EnemyMovement> ().LookForGem();
-				}
-			}
 			timer = 0f;
 		}
 	}

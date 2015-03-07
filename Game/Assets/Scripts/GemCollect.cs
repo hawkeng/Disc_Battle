@@ -8,10 +8,13 @@ public class GemCollect : MonoBehaviour {
 	private EnemyMovement enemyMov;
 	private Transform carry;
 	private Transform parentTransform;
-	private bool collected = false;
+
+	public bool isCollected {get; set;}
 
 	void Start ()
 	{
+		isCollected = false;
+
 		enemyMov = GameObject.Find ("Enemy").GetComponent<EnemyMovement> ();
 
 		parentTransform = transform.parent.transform;
@@ -19,7 +22,7 @@ public class GemCollect : MonoBehaviour {
 
 	void LateUpdate ()
 	{
-		if (collected)
+		if (isCollected)
 		{
 			parentTransform.position = carry.position + (Vector3.up * (offset / 50));
 		}
@@ -27,7 +30,7 @@ public class GemCollect : MonoBehaviour {
 
 	void OnTriggerEnter2D (Collider2D coll)
 	{
-		if (coll.gameObject.tag == "Player" && !collected)
+		if (coll.gameObject.tag == "Player" && !isCollected)
 		{
 			GameObject player =	coll.gameObject;
 
@@ -45,11 +48,5 @@ public class GemCollect : MonoBehaviour {
 			isCollected = true;
 			collider2D.enabled = false;
 		}
-	}
-
-	public bool isCollected
-	{
-		get {return collected;}
-		set {collected = value;}
-	}
+	}	
 }

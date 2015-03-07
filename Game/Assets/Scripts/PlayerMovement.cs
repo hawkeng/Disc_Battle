@@ -11,12 +11,25 @@ public class PlayerMovement : MonoBehaviour {
 	protected string facingDirection;
 	protected Dictionary<string, Sprite> movementDict;
 	protected float moveH, moveV;
-	protected GameObject gemObject;
-	protected bool carryingGem = false;
+	protected Vector3 _facingCoordinates;
+	protected Vector3 move;
+
+	public GameObject collectedGem {get; set;}
+	public bool hasGem {get; set;}
+
+	public Vector3 facingCoordinates 
+	{
+		get {return _facingCoordinates;}
+		protected set {_facingCoordinates = value;}
+	}
 
 	// Is virtual in order to be overriden for children classes
 	protected virtual void Start () 
 	{
+		hasGem = false;
+
+		// Player always starts facing RIGHT
+		facingCoordinates = new Vector2 (1, 0);
 		spriteRend = GetComponent<SpriteRenderer> ();
 
 		MovementFace[] mf = movementFaces;
@@ -31,16 +44,35 @@ public class PlayerMovement : MonoBehaviour {
 	{
 		moveH = Input.GetAxis ("Horizontal");
 		moveV = Input.GetAxis ("Vertical");
+
+		UpdateFacingCoords ();
 	}
 
-	protected virtual void FixedUpdate ()
+	protected void UpdateFacingCoords ()
 	{
-		rigidbody2D.velocity = new Vector3 (moveH * maxSpeed, moveV * maxSpeed, 0);
-
-		HandleFacingDirection();
+		// Keep track of the last facing coordinates that are 
+		// different from 0
+		if (moveH != 0 || moveV != 0)
+		{
+			_facingCoordinates.x = Mathf.Clamp (moveH, -1, 1);
+			_facingCoordinates.y = Mathf.Clamp (moveV, -1, 1);
+		}
 	}
 
-	void HandleFacingDirection ()
+	void FixedUpdate ()
+	{
+		//rigidbody2D.velocity = new Vector3 (moveH * maxSpeed, moveV * maxSpeed, 0);
+
+		move.Set (moveH, moveV, 0);
+		// ClampMagnitude is for preventing the player to move faster in diagonal
+		// The second parameter is the max Length of the vector line
+		move = Vector3.ClampMagnitude (move, 1.0f);
+		rigidbody2D.velocity = move * maxSpeed;
+
+		HandleFacing ();
+	}
+
+	protected virtual void HandleFacing ()
 	{
 		facingDirection = "";
 		if (moveV > 0) 
@@ -65,18 +97,6 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			spriteRend.sprite = movementDict[facingDirection];
 		}
-	}
-
-	public GameObject collectedGem 
-	{
-		get {return gemObject;}
-		set {gemObject = value;}
-	}
-
-	public bool hasGem
-	{
-		get {return carryingGem;}
-		set {carryingGem = value;}
 	}
 
 	public virtual void NotifGemCollect () {}
